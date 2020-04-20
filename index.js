@@ -2,7 +2,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
-require('./models/Product');
 require('./models/Movie');
 
 const app = express()
@@ -12,7 +11,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/nas');
 
 app.use(bodyParser.json());
 
-require('./routes/productRoutes')(app);
 require('./routes/movieRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {

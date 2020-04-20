@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const fs = require('fs');
 const Movie = mongoose.model('movie');
 
 module.exports = (app) => {
@@ -15,36 +16,46 @@ module.exports = (app) => {
     return res.status(200).send(movie);
   });
 
-  app.post(`/api/movie`, async (req, res) => {
-    let movie = await Movie.create(req.body);
-    return res.status(201).send({
-      error: false,
-      movie
-    })
-  })
-
-  app.put(`/api/movie/:id`, async (req, res) => {
+  app.get('/api/movie/:id/stream', async (req, res, next) => {
     const {id} = req.params;
+    let movie = await Movie.findById(id);
+    console.log(movie)
 
-    let movie = await Movie.findByIdAndUpdate(id, req.body);
+    const path = movie._path
+    const stat = fs.statSync(path)
+    const fileSize = stat.size
+    const range = req.headers.range
 
-    return res.status(202).send({
-      error: false,
-      movie
+    if (range) {
+      const parts = range.replace(/bytes=/, "").split("-")
+      const start = parseInt(parts[0], 10)
+      const end = parts[1]
+        ? parseInt(parts[1], 10)
+        : fileSize-1
+
+      if(start >= fileSize) {
+        res.status(416).send('Requested range not satisfiable\n'+start+' >= '+fileSize);
+        return
+      }
+      
+      const chunksize = (end-start)+1
+      const file = fs.createReadStream(path, {start, end})
+      const head = {
+        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': chunksize,
+        'Content-Type': 'video/mp4',
+      }
+
+      res.writeHead(206, head)
+      file.pipe(res)
+    } else {
+      const head = {
+        'Content-Length': fileSize,
+        'Content-Type': 'video/mp4',
+      }
+      res.writeHead(200, head)
+      fs.createReadStream(path).pipe(res)
+    }
     })
-
-  });
-
-  app.delete(`/api/movie/:id`, async (req, res) => {
-    const {id} = req.params;
-
-    let movie = await Movie.findByIdAndDelete(id);
-
-    return res.status(202).send({
-      error: false,
-      movie
-    })
-
-  })
-
 }

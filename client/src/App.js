@@ -15,6 +15,9 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/:id/stream">
+          <MovieStream />
+        </Route>
         <Route path="/:id">
           <MovieDetail />
         </Route>
@@ -83,10 +86,23 @@ function MovieDetail() {
       <div>
         <h3>{movie.title}</h3>
         <p>{movie.overview}</p>
+        <Link to={`/${movie._id}/stream`}>Play movie</Link>
       </div>
       ) : (
         <p>no movie</p>
       )}
+    </div>
+  );
+}
+
+function MovieStream() {
+  let { id } = useParams();
+
+  return (
+    <div>
+      <video id="videoPlayer" class="player" controls autoPlay> 
+        <source src={"/api/movie/" + id + "/stream"} type="video/mp4" />
+      </video>
     </div>
   );
 }
