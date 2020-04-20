@@ -7,6 +7,10 @@ import {
   useParams,
 } from "react-router-dom";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Card from 'react-bootstrap/Card';
+import CardDeck from 'react-bootstrap/CardDeck';
+import Button from 'react-bootstrap/Button';
 import './App.css'
 
 import movieService from './services/movieService';
@@ -29,7 +33,6 @@ function App() {
   );
 }
 
-
 function MovieList() {
   const [movies, setmovies] = useState(null);
 
@@ -46,21 +49,26 @@ function MovieList() {
 
   const renderMovie = movie => {
     return (
-      <a  key={movie._id} className="list__item movie">
-        <Link to={`/${movie._id}`}>{movie.title}</Link>
-      </a>
+      <Link to={`/${movie._id}`}>
+        <Card style={{ width: '18rem' }}>
+          <Card.Img variant="top" src="holder.js/100px180" />
+          <Card.Body>
+            <Card.Title>{movie.title}</Card.Title>
+          </Card.Body>
+        </Card>
+      </Link>
     );
   };
 
   return (
     <div className="App">
-      <div className="list">
+      <CardDeck className="list">
         {(movies && movies.length > 0) ? (
           movies.map(movie => renderMovie(movie))
         ) : (
           <p>No movies found</p>
         )}
-      </div>
+      </CardDeck>
     </div>
   )
 }
