@@ -73,7 +73,7 @@ function MovieDetail() {
     if(!movie) {
       getMovie();
     }
-  })
+  }) 
 
   const getMovie = async () => {
     let res = await movieService.getById(id);
