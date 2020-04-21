@@ -1,3 +1,7 @@
+body {
+  background-color: #282c34;
+}
+
 .App {
   text-align: center;
 }
@@ -7,9 +11,6 @@
   pointer-events: none;
 }
 
-.list {
-  /* display: flex; */
-}
 .list__item {
   flex-basis: 100%;
   text-align: center;
@@ -20,6 +21,10 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+img:hover {
+  opacity: 70%;
 }
  
 .player {

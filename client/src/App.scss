@@ -1,0 +1,72 @@
+
+@import "~bootstrap/scss/bootstrap";
+
+body {
+  background-color: #282c34;
+  color: whitesmoke
+}
+
+.darkCard {
+  background-color: #282c34;
+  color: whitesmoke
+}
+
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.list__item {
+  flex-basis: 100%;
+  text-align: center;
+  border: 1px solid black;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+img:hover {
+  opacity: 70%;
+}
+ 
+.player {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  background-color: black;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
