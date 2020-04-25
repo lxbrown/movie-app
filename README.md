@@ -13,7 +13,6 @@ TMDB_KEY=<TMDB_KEY>
 MOVIE_DIRECTORY=<MOVIE_DIRECTORY>
 
 MONGODB_URI=<MONGODB URI>     #Default - mongodb://localhost:27017/dashboard
-DATABASE_NAME=<DATABASE_NAME> #Default - movies
 PORT=<PORT>                   #Default - 5000
 ```
 
