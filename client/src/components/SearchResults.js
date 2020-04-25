@@ -28,7 +28,7 @@ class SearchResults extends React.Component {
   render() {
     function renderMovie(movie) {
       return (
-        <Link to={`/movie/${movie._id}`}>
+        <Link to={`/movie/${movie._id}`} key={`${movie._id}`}>
           <Card className="darkCard" style={{ width: '18rem' }}>
             <Card.Img variant="top" src={`/api/movie/${movie._id}/poster`} />
             <Card.Body>

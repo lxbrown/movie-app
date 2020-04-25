@@ -9,7 +9,11 @@ export default {
     return res.data || [];
   },
   getById: async (id) => {
-    let res = await axios.get('/api/movie/' + id ); 
+    let res = await axios.get('/api/movie/' + id); 
+    return res.data || [];
+  },
+  refresh: async (id) => {
+    let res = await axios.post('/api/refresh'); 
     return res.data || [];
   }
 }

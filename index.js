@@ -1,13 +1,14 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+require('dotenv').config()
 
 require('./models/Movie');
 
 const app = express()
 
 mongoose.Promise = global.Promise
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/nas', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/dashboard', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(bodyParser.json());
 

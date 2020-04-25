@@ -6,6 +6,8 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 
+import movieService from '../services/movieService';
+
 class TopNav extends React.Component {
     constructor(props) {
       super(props);
@@ -36,6 +38,12 @@ class TopNav extends React.Component {
         alert("Please enter some search text!");
       }
     };
+
+    refresh = () => {
+      movieService.refresh().then(this.props.history.push({
+        pathname: "/movie"
+      }))
+    }
   
     render() {
       return (
@@ -43,6 +51,9 @@ class TopNav extends React.Component {
             <Nav className="mr-auto">
                 <Nav.Link onClick={this.handleRoute("/movie")}>Home</Nav.Link>
             </Nav>
+            <Button onClick={this.refresh} className="mr-sm-2" variant="outline-info">
+              Refresh 
+            </Button>
             <Form inline>
                 <FormControl
                 onChange={this.handleSearchInput}

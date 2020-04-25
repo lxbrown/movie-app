@@ -27,14 +27,18 @@ class MovieList extends React.Component {
     render() {
       function renderMovie(movie) {
         return (
-          <Link to={`/movie/${movie._id}`} key={`${movie._id}`}>
-            <Card className="darkCard" style={{ width: '18rem' }}>
-              <Card.Img variant="top" src={`/api/movie/${movie._id}/poster`} />
-              <Card.Body>
-                <Card.Title>{movie.title}</Card.Title>
-              </Card.Body>
+          <div key={`${movie._id}`}>
+            <Card bg="dark" text="white" style={{ width: '18rem'}}  >
+              <Link to={`/stream/${movie._id}`}>
+                <Card.Img variant="top" src={`/api/movie/${movie._id}/poster`} />
+              </Link>
+              <Link to={`/movie/${movie._id}`} style={{color: 'white'}}>
+                <Card.Body>
+                  <Card.Title>{movie.title}</Card.Title>
+                </Card.Body>
+              </Link>
             </Card>
-          </Link>
+          </div>
         );
       };
   
