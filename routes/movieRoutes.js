@@ -29,7 +29,7 @@ module.exports = (app) => {
     return res.status(200).sendFile(path.join(__dirname, '../assets/posters/' + id + '.jpg'));
   });
 
-  app.get('/api/movie/:id/stream', async (req, res, next) => {
+  app.get('/api/stream/:id', async (req, res, next) => {
     const {id} = req.params;
     let movie = await Movie.findById(id).lean();
 
