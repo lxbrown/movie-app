@@ -5,7 +5,7 @@ Provides a dashboard of movies stored on a local server.
 Dependencies: 
   - [node](https://nodejs.org/)  
   - [npm](https://www.npmjs.com/)  
-  - [MongoDB](https://www.mongodb.com/)  
+  - [local MongoDB client](https://www.mongodb.com/download-center/community)  
   - [TMDB API key](https://developers.themoviedb.org/3/getting-started/introduction)  
   - Directory containing movies in .mp4 format   
   - .env file with the following defined 
