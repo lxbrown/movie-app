@@ -8,7 +8,7 @@ Dependencies:
   - [local MongoDB client](https://www.mongodb.com/download-center/community)  
   - [TMDB API key](https://developers.themoviedb.org/3/getting-started/introduction)  
   - Directory containing movies in .mp4 format   
-  - .env file with the following defined 
+  - .env file in root directory with the following defined 
   
    ```
 TMDB_KEY=<TMDB_KEY>               #eg. abc12d345ef678ghij901j2k345l6789
