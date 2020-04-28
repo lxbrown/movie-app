@@ -94,10 +94,13 @@ module.exports = (app) => {
 
     function addToDb(fileName, directory) {
       var titleInfo = ptt.parse(fileName)
-      if (titleInfo.container === undefined || titleInfo.season !== undefined){
+      //Skip tv shows, anything that came back without a video file format,
+      //or .avi files (can't be played in a browser)
+      if (titleInfo.season !== undefined || titleInfo.container === undefined ||
+        titleInfo.container === 'avi') {
           return
       }
-
+      
       tmdb.search.movie(titleInfo.title, 1, (err ,res) => {
         if (err) {
             console.log(err)
