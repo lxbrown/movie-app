@@ -5,7 +5,6 @@ const http = require('http')
 const ptt = require("parse-torrent-title");
 
 const tmdb = require('tmdbv3').init(process.env.TMDB_KEY);
-var directory = process.env.MOVIE_DIRECTORY
 
 const Movie = mongoose.model('movie');
 
@@ -77,55 +76,96 @@ module.exports = (app) => {
     })
 
   app.post(`/api/refresh`, async (req, res) => {
-    function scanDirectory(directory, callback) {
-        fs.readdir(directory, {withFileTypes: true}, (err, files) => {
-            if (err) {
-                throw err
+    var walk = function(dir, done) {
+      var results = [];
+      fs.readdir(dir, function(err, list) {
+        if (err) return done(err);
+        var pending = list.length;
+        if (!pending) return done(null, results);
+        list.forEach((file) => {
+          file = path.resolve(dir, file);
+          fs.stat(file, (err, stat) => {
+            if (stat && stat.isDirectory()) {
+              walk(file, function(err, res) {
+                results = results.concat(res);
+                if (!--pending) done(null, results);
+              });
+            } else {
+              results.push(file);
+              if (!--pending) done(null, results);
             }
-            files.forEach((dirent) => {
-                if(dirent.isDirectory()) {
-                    return setTimeout(scanDirectory, 500, path.join(directory, dirent.name), callback)
-                }
-    
-                callback(dirent.name, directory)
-            });
+          });
         });
+      });
+    };
+
+    function pickBest(a, b) {
+      if (!a) return b
+      if (!b) return a
+      //.mp4 is supported by all browsers, other formats only work on Chrome
+      if (a.info.container === 'mp4' && b.info.container !== 'mp4') return a
+      else if (a.info.container !== 'mp4' && b.info.container === 'mp4') return b
+      //Higher resolution is better
+      if (parseInt(a.info.resolution) > parseInt(b.info.resolution)) return a
+      else if (parseInt(b.info.resolution) > parseInt(a.info.resolution)) return b
+      //Default to first one
+      return a
     }
 
-    function addToDb(fileName, directory) {
-      var titleInfo = ptt.parse(fileName)
-      //Skip tv shows, anything that came back without a video file format,
-      //or .avi files (can't be played in a browser)
-      if (titleInfo.season !== undefined || titleInfo.container === undefined ||
-        titleInfo.container === 'avi') {
-          return
-      }
-      
-      tmdb.search.movie(titleInfo.title, 1, (err ,res) => {
-        if (err) {
-            console.log(err)
+    walk(process.env.MOVIE_DIRECTORY, (err, results) => {
+      if (err) throw err;
+
+      let titles = {}
+      results.forEach(result => {
+        let titleInfo = ptt.parse(path.basename(result).replace('- Copy', ''))
+        //Skip tv shows, anything that came back without a video file format,
+        //or .avi files (can't be played in a browser)
+        if (titleInfo.season !== undefined || titleInfo.container === undefined || titleInfo.container === 'avi') {
             return
         }
-        if (res.results.length === 0) return
-
-        const file_path = path.join(directory, fileName)
-        res.results[0]._path = file_path
-
-        Movie.findOne({id: res.results[0].id}, (err, found) => {
-          if (!found) {
-            Movie.create(res.results[0]).then(result => {
-              const poster_path = path.join(__dirname, '../assets/posters', result._id + '.jpg')
-              const file = fs.createWriteStream(poster_path);
-              http.get('http://image.tmdb.org/t/p/w500' + result.poster_path, function(response) {
-                response.pipe(file);
-              });
-            })
-          }
-        })
+        
+        titles[titleInfo.title] = pickBest(titles[titleInfo.title], {info: titleInfo, path: result})
       });
-    }
-    
-    scanDirectory(directory, addToDb)
+
+      Movie.deleteMany({}).then(() => {
+        Object.values(titles).forEach(entry => {
+          tmdb.search.movie(entry.info.title, 1, (err ,res) => {
+            if (err) throw err
+            if (res.results.length === 0) return
+
+            //Try matching the result based on release date. If no matches, go with the first result
+            let newDocument = res.results[0]
+            for (i=0;i < res.results.length; i++) {
+              if (res.results[i].release_date && parseInt(res.results[i].release_date) === entry.info.year) {
+                newDocument = res.results[i]
+                break
+              }
+            }
+            
+            newDocument._path = entry.path
+            Movie.findOneAndReplace({id: newDocument.id}, newDocument, {upsert: true, returnNewDocument: true}, (err, result) => {
+              //Workaround because mongoose doesn't support findOneAndReplace returning the new document yet
+              if (!result) {
+                Movie.findOne({id: newDocument.id}).then(result => {
+                  const poster_path = path.join(__dirname, '../assets/posters', result._id + '.jpg')
+                  const file = fs.createWriteStream(poster_path);
+                  http.get('http://image.tmdb.org/t/p/w500' + result.poster_path, function(response) {
+                    response.pipe(file);
+                  });
+                })
+              }
+              else {
+                const poster_path = path.join(__dirname, '../assets/posters', result._id + '.jpg')
+                const file = fs.createWriteStream(poster_path);
+                http.get('http://image.tmdb.org/t/p/w500' + result.poster_path, function(response) {
+                  response.pipe(file);
+                });
+              }
+            })
+          });
+        })
+      })
+    });
 
     return res.status(200).send('response');
   });

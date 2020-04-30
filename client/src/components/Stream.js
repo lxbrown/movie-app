@@ -11,7 +11,7 @@ class Stream extends React.Component {
     handleError = error => {
       const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
       if (!isChrome) {
-        alert('Try watching this one on Chrome. Some browsers don\'t support all the video formats')
+        alert('Try watching this one on Chrome. Some browsers don\'t support all the video formats.')
       }
     }
   
