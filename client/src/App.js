@@ -2,7 +2,8 @@ import React from "react";
 import {
   Route,
   withRouter,
-  Switch
+  Switch,
+  Redirect
 } from "react-router-dom";
 
 import './App.scss'
@@ -31,10 +32,13 @@ class App extends React.Component {
     return (
       <>
         <Route path="/" component={TopNav} />
+        <Route exact path="/">
+          <Redirect to="/movie"/>
+        </Route>
         <Container fluid="lg" style={{ paddingTop: '100px' }}>
           <Route exact path="/movie/:id" component={MovieDetail} />
           <Route exact path="/movie" component={MovieList} />
-          <Route exact path="/results" component={SearchResults} />
+          <Route path="/results/:search" component={SearchResults} />
         </Container>
       </>
     );

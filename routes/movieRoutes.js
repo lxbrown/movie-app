@@ -149,7 +149,7 @@ module.exports = (app) => {
                 Movie.findOne({id: newDocument.id}).then(result => {
                   const poster_path = path.join(__dirname, '../assets/posters', result._id + '.jpg')
                   const file = fs.createWriteStream(poster_path);
-                  http.get('http://image.tmdb.org/t/p/w500' + result.poster_path, function(response) {
+                  http.get('http://image.tmdb.org/t/p/w342' + result.poster_path, function(response) {
                     response.pipe(file);
                   });
                 })
@@ -157,7 +157,7 @@ module.exports = (app) => {
               else {
                 const poster_path = path.join(__dirname, '../assets/posters', result._id + '.jpg')
                 const file = fs.createWriteStream(poster_path);
-                http.get('http://image.tmdb.org/t/p/w500' + result.poster_path, function(response) {
+                http.get('http://image.tmdb.org/t/p/w342' + result.poster_path, function(response) {
                   response.pipe(file);
                 });
               }

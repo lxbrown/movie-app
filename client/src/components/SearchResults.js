@@ -1,19 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import TextTruncate from 'react-text-truncate';
+
 import Card from 'react-bootstrap/Card';
 import CardDeck from 'react-bootstrap/CardDeck';
-
-import queryString from 'query-string'
+import Tooltip from 'react-bootstrap/Tooltip';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 import movieService from '../services/movieService';
 
 class SearchResults extends React.Component {
   constructor(props) {
     super(props);
-    const values = queryString.parse(this.props.location.search)
     this.state = {
-      search: values.search
+      movies: undefined
     }
   }
   
@@ -21,21 +22,48 @@ class SearchResults extends React.Component {
     this.getMovies()
   }
 
+  componentDidUpdate() {
+    this.getMovies()
+  }
+
   getMovies() {
-    movieService.getAll(this.state.search).then(movies => this.setState({movies: movies}))
+    movieService.getAll(this.props.match.params.search).then(movies => this.setState({movies: movies}))
   }
   
   render() {
+    function renderTooltip(props) {
+      return (
+        <Tooltip id="button-tooltip" {...props}>
+          {props.title}
+        </Tooltip>
+      );
+    }
+  
     function renderMovie(movie) {
       return (
-        <Link to={`/movie/${movie._id}`} key={`${movie._id}`}>
-          <Card className="darkCard" style={{ width: '18rem' }}>
-            <Card.Img variant="top" src={`/api/movie/${movie._id}/poster`} />
-            <Card.Body>
-              <Card.Title>{movie.title}</Card.Title>
-            </Card.Body>
+        <div key={`${movie._id}`}>
+          <Card text="white" className="card" >
+            <Link to={`/stream/${movie._id}`}>
+              <Card.Img variant="top" src={`/api/movie/${movie._id}/poster`} style={{height: '17.75rem'}}/>
+            </Link>
+            <Link to={`/movie/${movie._id}`} style={{color: 'white'}}>
+              <Card.Body>
+                <OverlayTrigger
+                  placement="bottom"
+                  delay={{ show: 350, hide: 150 }}
+                  overlay={renderTooltip(movie)}
+                >
+                  <Card.Title className='card-title'>
+                    <TextTruncate
+                      line={1}
+                      text={movie.title} />
+                  </Card.Title>
+                </OverlayTrigger>
+                <Card.Subtitle className='card-subtitle'>{new Date(movie.release_date).getFullYear()}</Card.Subtitle>
+              </Card.Body>
+            </Link>
           </Card>
-        </Link>
+        </div>
       );
     };
 

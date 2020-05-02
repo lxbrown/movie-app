@@ -29,7 +29,7 @@ class TopNav extends React.Component {
     handleSearchSubmit = () => {
       if (this.state.searchText) {
         this.props.history.push({
-          pathname: "/results?search=" + this.state.searchText,
+          pathname: "/results/" + this.state.searchText,
           state: {
             searchText: this.state.searchText
           }

@@ -28,14 +28,14 @@ class MovieDetail extends React.Component {
         <div>
           {(this.state.movie) ? (
           <div style={{display: 'flex'}}>
-            <div style={{ width: '18rem', flexShrink: 0 }}>
+            <div style={{ width: '13rem', flexShrink: 0 }}>
               <Link to={`/stream/${this.state.movie._id}`}>
                 <Image src={`/api/movie/${this.state.movie._id}/poster`} rounded fluid />
               </Link>
             </div>
-            <div>
+            <div style={{paddingLeft: '30px'}}>
               <h3>{this.state.movie.title}</h3>
-              <p>{new Date(this.state.movie.release_date).getFullYear()}</p>
+              <p style={{color: 'grey'}}>{new Date(this.state.movie.release_date).getFullYear()}</p>
               <span><p>::runtime::</p><p>::genres::</p></span>
               <p>{this.state.movie.overview}</p>
             </div>
