@@ -10,8 +10,8 @@ import './App.scss'
 
 import Container from 'react-bootstrap/Container'
 
-import MovieList from './components/MovieList';
-import MovieDetail from './components/MovieDetail';
+import MovieList from './movie/movie-list';
+import MovieDetail from './movie/movie-detail';
 import Stream from './components/Stream';
 import SearchResults from './components/SearchResults';
 import TopNav from './components/TopNav';
