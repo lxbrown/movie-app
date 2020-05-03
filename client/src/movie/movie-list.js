@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CardDeck from 'react-bootstrap/CardDeck';
 
 import MovieCard from './movie-card';
-import movieService from '../services/movieService';
+import movieService from './movie-service';
 
 export default function MovieList() {
     const [movies, setMovies] = useState(undefined)

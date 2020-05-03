@@ -1,21 +1,17 @@
 import React, { useState } from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory,  
+         NavLink } from 'react-router-dom';
 
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 
-import movieService from '../services/movieService';
+import movieService from '../movie/movie-service';
 
 export default function TopNav() {
   let history = useHistory();
   const [searchText, setSearchText] = useState('')
-
-  const handleRoute = route => () => {
-    history.push({ pathname: route });
-  };
 
   const handleSearchInput = event => {
     setSearchText(event.target.value)
@@ -24,10 +20,7 @@ export default function TopNav() {
   const handleSearchSubmit = () => {
     if (searchText) {
       history.push({
-        pathname: "/results/" + searchText,
-        state: {
-          searchText: searchText
-        }
+        pathname: "/results/" + searchText
       });
     } else {
       alert("Please enter some search text!");
@@ -39,24 +32,25 @@ export default function TopNav() {
       pathname: "/movie"
     }))
   }
-  
+
   return (
     <Navbar bg="dark" variant="dark" fixed="top">
       <Nav className="mr-auto">
-        <Nav.Link onClick={handleRoute("/movie")}>Home</Nav.Link>
+        <Nav.Link as={NavLink} to='/movie'>Home</Nav.Link>
       </Nav>
       <Button onClick={refresh} className="mr-sm-2" variant="outline-info">
         Refresh 
       </Button>
       <Form inline>
-        <FormControl
-          onChange={handleSearchInput}
-          value={searchText}
-          type="text"
-          placeholder="Search"
-          className="mr-sm-2"
-        />
-        <Button onClick={handleSearchSubmit} variant="outline-info">
+        <Form.Group controlId="formSearch">
+          <Form.Control
+            type="text"
+            className="mr-sm-2"
+            placeholder="Search"
+            onChange={handleSearchInput}
+            value={searchText} />
+        </Form.Group>
+        <Button onClick={handleSearchSubmit} variant="outline-info" type="submit">
         Search
         </Button>
       </Form>

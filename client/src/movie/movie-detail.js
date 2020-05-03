@@ -6,7 +6,7 @@ import {
 
 import Image from 'react-bootstrap/Image';
 
-import movieService from '../services/movieService';
+import movieService from './movie-service';
 
 const MovieDetail = (props) => {
   let { id } = useParams();

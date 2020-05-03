@@ -3,7 +3,7 @@ import React, {useState, useEffect} from "react";
 import CardDeck from 'react-bootstrap/CardDeck';
 
 import MovieCard from '../movie/movie-card';
-import movieService from '../services/movieService';
+import movieService from '../movie/movie-service';
 
 export default function SearchResults(props) {
   const [movies, setMovies] = useState(undefined)
