@@ -12,9 +12,9 @@ import Container from 'react-bootstrap/Container'
 
 import MovieList from './movie/movie-list';
 import MovieDetail from './movie/movie-detail';
-import Stream from './components/Stream';
-import SearchResults from './components/SearchResults';
-import TopNav from './components/TopNav';
+import Stream from './common/stream';
+import SearchResults from './common/search-results';
+import TopNav from './common/top-nav';
 
 class Main extends React.Component {
   render() {
