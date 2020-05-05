@@ -8,6 +8,7 @@ import TextTruncate from 'react-text-truncate';
 import Card from 'react-bootstrap/Card';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import LazyLoad from "react-lazyload";
 
 function renderTooltip(text) {
     return (
@@ -17,12 +18,15 @@ function renderTooltip(text) {
     );
   }
 
-export default function MovieCard(movie) {
+export default function MovieCard(props) {
+    const movie = props.movie
     return (
         <div key={`${movie._id}`}>
             <Card text="white" className="card" >
                 <Link to={`/stream/${movie._id}`}>
-                <Card.Img variant="top" src={`/api/movie/${movie._id}/poster`} style={{height: '17.75rem'}}/>
+                <LazyLoad height={200}>
+                    <Card.Img variant="top" src={`/api/movie/${movie._id}/poster`} style={{height: '17.75rem'}}/>
+                </LazyLoad>
                 </Link>
                 <Link
                     to={{

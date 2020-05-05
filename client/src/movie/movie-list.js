@@ -24,7 +24,7 @@ export default function MovieList() {
         <p>Click on a movie to start watching or a title to read more.</p>
         <CardDeck style={{ justifyContent: 'space-between' }}>
           {(movies && movies.length > 0) ? (
-            movies.map(movie => MovieCard(movie))
+            movies.map(movie => <MovieCard movie={movie} />)
           ) : (
             <p>No movies found</p>
           )}
