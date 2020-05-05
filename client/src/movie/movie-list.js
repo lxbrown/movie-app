@@ -20,6 +20,8 @@ export default function MovieList() {
   
     return (
       <div className="App">
+        <h3>Movies</h3>
+        <p>Click on a movie to start watching or a title to read more.</p>
         <CardDeck style={{ justifyContent: 'space-between' }}>
           {(movies && movies.length > 0) ? (
             movies.map(movie => MovieCard(movie))
