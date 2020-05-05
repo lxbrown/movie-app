@@ -16,18 +16,18 @@ import Stream from './common/stream';
 import SearchResults from './common/search-results';
 import TopNav from './common/top-nav';
 
-class Main extends React.Component {
+class App extends React.Component {
   render() {
     return (
       <Switch>
         <Route path='/stream/:id' component={Stream} />
-        <Route path='/' component={ App } />
+        <Route path='/' component={ Frame } />
       </Switch>
     );
   }
 }
 
-class App extends React.Component {
+class Frame extends React.Component {
   render() {
     return (
       <>
@@ -45,4 +45,4 @@ class App extends React.Component {
   }
 }
 
-export default withRouter(Main);
+export default withRouter(App);

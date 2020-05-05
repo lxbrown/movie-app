@@ -35,7 +35,6 @@ const MovieDetail = (props) => {
         <div style={{paddingLeft: '30px'}}>
           <h3>{movie.title}</h3>
           <p style={{color: 'grey'}}>{new Date(movie.release_date).getFullYear()}</p>
-          <span><p>::runtime::</p><p>::genres::</p></span>
           <p>{movie.overview}</p>
         </div>
       </div>

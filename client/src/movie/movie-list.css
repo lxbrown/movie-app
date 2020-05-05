@@ -1,0 +1,11 @@
+.list {
+    --opacityTransition: opacity 35ms ease-out;
+    --loadingOpacity: 0.35;
+
+    will-change: opacity;
+    transition: var(--opacityTransition);
+}
+
+.list_isLoading {
+    opacity: var(--loadingOpacity);
+}
