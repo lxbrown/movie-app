@@ -27,7 +27,7 @@ export default function MovieList() {
       })}>
         <h3>Movies</h3>
         <p>Click on a movie to start watching or a title to read more.</p>
-        <CardDeck style={{ justifyContent: 'space-between' }}>
+        <CardDeck>
           {(movies && movies.length > 0) ? (
             movies.map(movie => (
               <MovieCard key={movie._id} movie={movie} />
