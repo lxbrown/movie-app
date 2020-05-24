@@ -25,7 +25,7 @@ const MovieDetail = (props) => {
     <div>
       {(movie) ? (
       <div style={{display: 'flex'}}>
-        <div style={{ width: '15rem', flexShrink: 0 }}>
+        <div style={{ width: '13rem', flexShrink: 0 }}>
           <MoviePoster movie={movie}/>
         </div>
         <div style={{paddingLeft: '30px'}}>
