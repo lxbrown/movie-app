@@ -118,6 +118,7 @@ module.exports = (app) => {
       let titles = {}
       results.forEach(result => {
         let titleInfo = ptt.parse(path.basename(result).replace('- Copy', ''))
+        titleInfo.title = titleInfo.title.replace('.', ' ')
         //Skip tv shows, anything that came back without a video file format,
         //or .avi files (can't be played in a browser)
         if (titleInfo.season !== undefined || titleInfo.container === undefined || titleInfo.container === 'avi') {
