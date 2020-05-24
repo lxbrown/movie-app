@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
-    Link,
     useParams
 } from "react-router-dom";
 
-import Image from 'react-bootstrap/Image';
-
 import movieService from './movie-service';
+import MoviePoster from './movie-poster';
 
 const MovieDetail = (props) => {
   let { id } = useParams();
@@ -27,10 +25,8 @@ const MovieDetail = (props) => {
     <div>
       {(movie) ? (
       <div style={{display: 'flex'}}>
-        <div style={{ width: '13rem', flexShrink: 0 }}>
-          <Link to={`/stream/${movie._id}`}>
-            <Image src={`/api/movie/${movie._id}/poster`} rounded fluid />
-          </Link>
+        <div style={{ width: '15rem', flexShrink: 0 }}>
+          <MoviePoster movie={movie}/>
         </div>
         <div style={{paddingLeft: '30px'}}>
           <h3>{movie.title}</h3>
