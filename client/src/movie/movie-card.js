@@ -18,7 +18,7 @@ export default function MovieCard(props) {
     return (
         <div key={`${movie._id}`}>
             <Card text="white" className="card">
-                <MoviePoster movie={movie} />
+                <MoviePoster movie={movie} height="285px" width="190px" />
                 <Link
                     to={{
                         pathname: `/movie/${movie._id}`,
