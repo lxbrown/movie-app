@@ -17,7 +17,8 @@ export default function TopNav() {
     setSearchText(event.target.value)
   };
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = e => {
+    e.preventDefault()
     if (searchText) {
       history.push({
         pathname: "/results/" + searchText
@@ -41,14 +42,15 @@ export default function TopNav() {
       <Button onClick={refresh} className="mr-sm-2" variant="outline-info">
         Refresh 
       </Button>
-      <Form inline>
+      <Form inline onSubmit={handleSearchSubmit}>
         <Form.Group controlId="formSearch">
           <Form.Control
             type="text"
             className="mr-sm-2"
             placeholder="Search"
             onChange={handleSearchInput}
-            value={searchText} />
+            value={searchText}
+          />
         </Form.Group>
         <Button onClick={handleSearchSubmit} variant="outline-info" type="submit">
         Search
